@@ -1,6 +1,6 @@
 import { Component,OnInit,inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DataService } from '../data.service';
+import { DataService } from '../services/data.service';
 import { Car } from '../car';
 import { Observable,BehaviorSubject } from 'rxjs'; 
 

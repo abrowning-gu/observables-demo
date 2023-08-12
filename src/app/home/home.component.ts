@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component,inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { ListComponent } from '../list/list.component';
 import { DetailComponent } from '../detail/detail.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -11,5 +12,11 @@ import { DetailComponent } from '../detail/detail.component';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+ private router = inject(Router)
 
+  logout(event:any){
+    sessionStorage.removeItem('currentUser');
+    this.router.navigateByUrl('');
+
+  }
 }
