@@ -23,14 +23,16 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
 ## Server side code
-The server side code can be found at https://github.com/inov8design-3813ict/observables-demo-server.git
+The server side code can be cloned from:  https://github.com/inov8design-3813ict/observables-demo-server.git
 
 clone the repo and run "npm install" to grab the required dependencies.
+The server will run on http://localhost:3000
 
 ## Features of Observables Demo
-Login Page - username/password (Check server code route->api-login.js for valid values)
+- Login Page - username/password (Check server code route->api-login.js for valid values)
 
-Homepage  - contains two sub components (List and Details)
+- Homepage  - contains two sub components (List and Details)
 
-Homepage is protected from view via a Guard on the route that prevents the component from loadng unless there is a "currentuser" stored in session Storage. (This will change once we start using MongoDB)
+- Homepage is protected from view via a Guard on the route that prevents the component from loadng unless there is a "currentuser" stored in session Storage. (This will change once we start using MongoDB)
+- Observables used to update data in Master/Detail pattern.
 
