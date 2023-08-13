@@ -14,9 +14,5 @@ import { Router } from '@angular/router';
 export class HomeComponent {
  private router = inject(Router)
 
-  logout(event:any){
-    sessionStorage.removeItem('currentUser');
-    this.router.navigateByUrl('');
 
-  }
 }

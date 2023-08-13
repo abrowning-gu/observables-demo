@@ -17,8 +17,11 @@ export class DetailComponent implements OnInit{
   private dataservice = inject(DataService);
 
   ngOnInit(): void {
-      this.dataservice.currentcar$.subscribe((data)=>{
+      this.dataservice.currentcar$.subscribe({
+        next: (data)=>{
          this.car = data;
-       })
+       }
+      })
+      
   }
 }

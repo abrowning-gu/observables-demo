@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component,inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,9 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'observable-demo';
+  private authServices = inject(AuthService);
+
+  logout(event:any){
+    this.authServices.logout(event);
+    }
 }

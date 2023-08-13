@@ -6,4 +6,7 @@ export const routes: Routes = [
     {path: 'home', 
     canActivate:[authGuard],
     loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent)},
+    {path: 'profile', 
+    canActivate:[authGuard],
+    loadComponent: () => import('./profile/profile.component').then(mod => mod.ProfileComponent)},
 ];

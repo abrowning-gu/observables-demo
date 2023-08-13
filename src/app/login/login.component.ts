@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
         (data)=>{
           if (data.valid == true){
             this.newuser = new User(data.username,data.email)
-            sessionStorage.setItem('currentUser',JSON.stringify(this.newuser));
+            this.authService.setCurrentuser(this.newuser);
             this.router.navigate(['/home']);
           }else{
            
