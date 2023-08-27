@@ -5,6 +5,7 @@ import {of,tap} from 'rxjs';
 import {User} from '../user';
 
 
+
 @Injectable({providedIn: 'root'})
 
 export class AuthService {
@@ -30,6 +31,7 @@ export class AuthService {
   logout(event:any){
     sessionStorage.removeItem('currentUser');
     this.router.navigateByUrl('');
+    
 
   }
   setCurrentuser(newuser:any){

@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import {User} from "../user";
 import {Router} from "@angular/router";
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -17,11 +18,13 @@ import { FormsModule } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
  
-  errormsg = "";
+  
   newuser:User = new User();
   email:string = "";
   pwd:string = "";
   loggedin:boolean = false;
+
+  private toastr = inject(ToastrService);
   private router = inject(Router);
   private authService = inject(AuthService);
 
@@ -46,12 +49,12 @@ export class LoginComponent implements OnInit {
             this.authService.setCurrentuser(this.newuser);
             this.router.navigate(['/home']);
           }else{
-           
-            this.errormsg = "There is a problem with the credentials";
+            this.toastr.error('User login', 'There is a problem with the credentials.');
+            
           }
       
       error:
-        this.errormsg = "There is a problem with the credentials";
+      console.log("There is a problem with the credentials");
       
     }
       
