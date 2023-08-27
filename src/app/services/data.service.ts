@@ -1,28 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable,inject } from '@angular/core';
 import { Car } from '../car';
+import { HttpClient } from '@angular/common/http';
 import { Observable ,of ,from,BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-cars:Car[] =[ {'id':1,'make':'Ford','model':'Escape','year':2019,'color':'White'},
-              {'id':2,'make':'Ford','model':'Mustang','year':2020,'color':'White'},
-              {'id':3,'make':'Mazda','model':'2','year':2016,'color':'Red'},
-              {'id':4,'make':'Mazda','model':'3','year':2021,'color':'Blue'},
-              {'id':5,'make':'Hyundai','model':'Tuscon','year':2018,'color':'white'},
-              {'id':6,'make':'Subaru','model':'Liberty','year':2006,'color':'Silver'},
-              {'id':7,'make':'Mazda','model':'MX 5','year':2023,'color':'Silver'}
-            ];
+ cars:Car[] =[];
 private _currentcar = new BehaviorSubject<Car>(<Car>{})
 readonly currentcar$ = this._currentcar.asObservable();
+private http = inject(HttpClient);
 
-constructor() { }
 
-public getAllCars(): Observable<Car[]> {
-  return new Observable<Car[]>((observer) => {
-    observer.next(this.cars);
-  });
+public getAllCars(){
+
+  //http.get returns an observable. A stringified JSON object is what we are loking for
+  //from the server.
+  return this.http.get<string>('http://localhost:3000/api/cars', {});
 }
 
 setcurrentcar(car:Car){

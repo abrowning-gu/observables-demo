@@ -2,7 +2,7 @@ import { Component,OnInit,inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../services/data.service';
 import { Car } from '../car';
-import { Observable,BehaviorSubject } from 'rxjs'; 
+
 
 @Component({
   selector: 'app-list',
@@ -14,11 +14,17 @@ import { Observable,BehaviorSubject } from 'rxjs';
 export class ListComponent implements OnInit{
  
  private dataservice = inject(DataService);
+ 
 
-  cars$ = new Observable<Car[]>();
-
+  cars:Car[] = [];
+  
   ngOnInit(): void {
-    this.cars$ = this.dataservice.getAllCars();
+    //get a list of all of the cars fro the server.
+    this.dataservice.getAllCars().subscribe({
+      next: (data) =>{
+       this.cars =JSON.parse(data); 
+      }
+    });
   }
 
   onSelect(car:Car){

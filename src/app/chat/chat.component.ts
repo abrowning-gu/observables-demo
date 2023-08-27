@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { SocketsService } from '../services/sockets.service';
 import { FormsModule } from '@angular/forms';
 import { Msg } from '../msg';
+import { AuthService } from '../services/auth.service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-chat',
@@ -13,18 +15,21 @@ import { Msg } from '../msg';
 })
 export class ChatComponent implements OnInit {
 
-
+  currentuser = new User();
   //create signal for values we want to bind to.
   //signals need a default value
   messageout= signal("");
   messagesin = signal<Msg[]>([]);
 
   //inject the socket service into the class.
-  private socketService = inject(SocketsService)
+  private socketService = inject(SocketsService);
+  private authService = inject(AuthService);
 
   ngOnInit(): void {
     this.initIoConnection();
-  }
+    this.currentuser = JSON.parse(this.authService.getCurrentuser() || '{}');
+    console.log(this.currentuser);
+    }
 
   //Initialise the socket via the service
   private initIoConnection(){
