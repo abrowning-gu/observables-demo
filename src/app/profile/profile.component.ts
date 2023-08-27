@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ImageuploadService } from '../services/imageupload.service';
 import { AuthService } from '../services/auth.service';
 import {User} from '../user';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +13,7 @@ import {User} from '../user';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit{
-
+  private toastr = inject(ToastrService)
   private imgService = inject(ImageuploadService);
   private authService = inject(AuthService);
   selectedfile:any = null;
@@ -21,7 +22,7 @@ export class ProfileComponent implements OnInit{
 
   ngOnInit(){
     this.currentuser = JSON.parse(this.authService.getCurrentuser() || '{}');
-    console.log(this.currentuser);
+    //console.log(this.currentuser);
   }
   onFileSelected(event:any){
     this.selectedfile = event.target.files[0];
@@ -32,9 +33,14 @@ export class ProfileComponent implements OnInit{
     fd.append('image',this.selectedfile,this.selectedfile.name);
     this.imgService.imgupload(fd).subscribe({
       next:(res)=>{  
-        console.log(res);
         this.imagepath = res.data.filename;
-        this.currentuser.avatar  = res.data.filename 
+        this.currentuser.avatar  = res.data.filename; 
+        this.authService.updateUser(this.currentuser).subscribe({
+          next:
+            (data)=>{ 
+              this.toastr.success('User Update', 'User data was updated.');
+              }
+        });
         this.authService.setCurrentuser(this.currentuser);
       }
     });
