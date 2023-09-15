@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import io from 'socket.io-client';
+import {io, Socket} from 'socket.io-client';
 import { Msg } from '../msg';
 
 const SERVER_URL = 'http://localhost:3000';
@@ -10,8 +10,9 @@ const SERVER_URL = 'http://localhost:3000';
 })
 
 export class SocketsService {
-  private socket:any;
-  messages = signal<Msg[]>([]);
+  private socket:Socket = <Socket>{};
+ // messages = signal<Msg[]>([]);
+  messages:Msg[] = <Msg[]>[];
   constructor() { }
 
   initSocket(){
@@ -29,14 +30,19 @@ export class SocketsService {
  
 
   private obsFromIO(io:any,eventname:any){
+
+    
     return new Observable(observer=>{
-      io.on(eventname,(data:string)=>{
-        let msgdata:Msg = new Msg(data,new Date,1);
-      
-        this.messages.mutate(messages =>{messages.push(msgdata)});
-        observer.next(this.messages())
+        //give new list of messages to anyone that is listening
+        io.on(eventname,(data:string)=>{
+          let msgdata:Msg = new Msg(data,new Date,1);
+         // this.messages.mutate(messages =>{messages.push(msgdata)});
+         this.messages.push(msgdata);
+        
+        observer.next(msgdata);
       });
     });
+   
   }
 
 }

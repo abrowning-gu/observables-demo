@@ -17,7 +17,7 @@ public getAllCars(){
 
   //http.get returns an observable. A stringified JSON object is what we are loking for
   //from the server.
-  return this.http.get<string>('http://localhost:3000/api/cars', {});
+  return this.http.get<Car[]>('http://localhost:3000/api/cars', {});
 }
 
 setcurrentcar(car:Car){

@@ -13,6 +13,6 @@
     <strong>Connected as: {{currentuser.username}}</strong>
     <h3>Chat Messages</h3>
     <ul>
-        <li *ngFor="let message of messagesin()">{{message.msg}},{{message.dt | date:'dd/MM/yyy'}}</li>
+        <li *ngFor="let message of messagesin">{{message.msg}},{{message.dt | date:'dd/MM/yyy'}}</li>
     </ul>
 </div>

@@ -22,7 +22,7 @@ export class ListComponent implements OnInit{
     //get a list of all of the cars fro the server.
     this.dataservice.getAllCars().subscribe({
       next: (data) =>{
-       this.cars =JSON.parse(data); 
+       this.cars =data; 
       }
     });
   }
