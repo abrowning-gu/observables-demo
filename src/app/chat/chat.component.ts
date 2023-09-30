@@ -14,11 +14,16 @@ import { User } from '../user';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-
+  rooms=[];
+  selectedRoom:string="";
+  isinRoom= false;
+  currentroom:string = "";
+  messagecontent:string="";
   currentuser = new User();
   //create signal for values we want to bind to.
   //signals need a default value
-  messageout= signal("");
+  //messageout= signal("");
+  messageout:string = "";
   //messagesin = signal<Msg[]>([]);
   
   messagesin:Msg[] = <Msg[]>[];
@@ -29,7 +34,9 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.initIoConnection();
     this.currentuser = JSON.parse(this.authService.getCurrentuser() || '{}');
-    console.log(this.currentuser);
+    this.socketService.reqroomList();
+    this.socketService.getroomList((msg:string)=>{ this.rooms = JSON.parse(msg)});
+    
     }
 
   //Initialise the socket via the service
@@ -38,19 +45,32 @@ export class ChatComponent implements OnInit {
     // start listening for new messages and updating the messages signal.
     this.socketService.getNewMessage()
     .subscribe((messages:any)=>{
-      
-        //this.messagesin.set(messages);
-        this.messagesin.push(messages);
-          
+        this.messagesin.push(messages);     
     });
       
 
   }
-    
+    joinroom(){
+      console.log(this.selectedRoom);
+      this.socketService.joinroom(this.selectedRoom);
+      this.currentroom = this.selectedRoom;
+      this.isinRoom = true;
+  
+    }
+    leaveroom(){
+      console.log(this.currentroom);
+      this.socketService.leaveroom(this.currentroom)
+      this.selectedRoom = "";
+      this.currentroom = "";
+      this.isinRoom = false;
+      
+    }
+
+
   chat(){
-    if(this.messageout()){
-      this.socketService.send(this.messageout());
-      this.messageout.set("");
+    if(this.messageout){
+      this.socketService.send(this.messageout);
+      this.messageout = "";
     }else{
       console.log('No Message');
     }

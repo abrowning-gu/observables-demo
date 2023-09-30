@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import {io, Socket} from 'socket.io-client';
 import { Msg } from '../msg';
 
-const SERVER_URL = 'http://localhost:3000';
+const SERVER_URL = 'http://localhost:3000/chat';
 
 @Injectable({
   providedIn: 'root'
@@ -37,12 +37,28 @@ export class SocketsService {
         io.on(eventname,(data:string)=>{
           let msgdata:Msg = new Msg(data,new Date,1);
          // this.messages.mutate(messages =>{messages.push(msgdata)});
-         this.messages.push(msgdata);
+         //this.messages.push(msgdata);
         
         observer.next(msgdata);
       });
     });
    
+  }
+
+  joinroom(selroom:string):void{
+    this.socket.emit("joinRoom",selroom);
+  }
+  leaveroom(selroom:string):void{
+    this.socket.emit("leaveRoom",selroom);
+  }
+
+  reqroomList(){
+    this.socket.emit('roomlist','list please');
+  }
+
+  getroomList(next:any){
+    this.socket.on('roomlist',res=>next(res));
+
   }
 
 }

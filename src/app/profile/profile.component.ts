@@ -30,7 +30,9 @@ export class ProfileComponent implements OnInit{
 
   onUpload(){
     const fd = new FormData();
+    
     fd.append('image',this.selectedfile,this.selectedfile.name);
+    
     this.imgService.imgupload(fd).subscribe({
       next:(res)=>{  
         this.imagepath = res.data.filename;
